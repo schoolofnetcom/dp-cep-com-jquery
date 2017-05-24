@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="cep">CEP:</label>
+        <input type="text" name="cep" value="" size="10">
+        <label for="street">Street:</label>
+        <input type="text" name="street" value="" size="90">
+        <label for="neighborhood">Neighborhood:</label>
+        <input type="text" name="neighborhood" value="" size="50">
+        <label for="city">City:</label>
+        <input type="text" name="city" value="" size="40">
+        <label for="uf">UF:</label>
+        <input type="text" name="uf" value="" size="2">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        (function() {
+            $('input[name="cep"]').blur(function(e) {
+                var cep = $('input[name="cep"]').val() || ''
+                
+                if (!cep) {
+                    return 
+                }
+                
+                var url = 'http://viacep.com.br/ws/' + cep + '/json'
+                $.getJSON(url, function(data) {
+                    if ("error" in data) {
+                        return
+                    }
+
+                    $('input[name="street"]').val(data.logradouro)
+                    $('input[name="neighborhood"]').val(data.bairro)
+                    $('input[name="city"]').val(data.localidade)
+                    $('input[name="uf"]').val(data.uf)
+                })  
+            })
+        })()      
+    </script>
+</body>
+</html>
